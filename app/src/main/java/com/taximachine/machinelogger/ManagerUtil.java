@@ -70,18 +70,6 @@ public class ManagerUtil {
         return Build.VERSION.RELEASE;
     }
 
-    public static String getAppVersion(Context ctx) {
-        String version = "";
-        PackageInfo pInfo;
-        try {
-            pInfo = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0);
-            version = "A" + pInfo.versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-        }
-        return version;
-    }
-
-
     public static String getDeviceName() {
         String manufacturer = Build.MANUFACTURER;
         String model = Build.MODEL;

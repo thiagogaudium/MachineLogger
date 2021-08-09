@@ -15,6 +15,8 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
+import com.google.gson.Gson;
+
 public class GPSService extends Service {
     private Workable<GPSPoint> workable;
 
@@ -26,7 +28,18 @@ public class GPSService extends Service {
         else
             startForeground(1, new Notification());
 
-        workable = gpsPoint -> Log.i("GPS", gpsPoint.toString());
+        workable = (gpsPoint) -> {
+          GpsDataObject gpsDataObject = new GpsDataObject();
+          gpsDataObject.setLat(gpsPoint.getLatitude());
+          gpsDataObject.setLng(gpsPoint.getLongitude());
+          gpsDataObject.setModelo(ManagerUtil.getDeviceName());
+          gpsDataObject.setVersaoSO(ManagerUtil.getSOVersion());
+          gpsDataObject.setMemoriaRAMLivre(ManagerUtil.getFreeRamMemorySize(getApplicationContext()));
+          gpsDataObject.setTotalMemoriaRAM(ManagerUtil.getTotalRamMemorySize(getApplicationContext()));
+
+          Gson gson = new Gson();
+          Log.i("GPS", gson.toJson(gpsDataObject));
+        };
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
