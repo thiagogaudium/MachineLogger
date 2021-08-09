@@ -51,11 +51,17 @@ public class Whereabouts {
             public void onLocationResult(LocationResult locationResult) {
                 super.onLocationResult(locationResult); // why? this. is. retarded. Android.
                 Location currentLocation = locationResult.getLastLocation();
+                GPSPoint gpsPoint = null;
+                if(currentLocation.hasSpeed()) {
+                     gpsPoint = new GPSPoint(currentLocation.getLatitude(), currentLocation.getLongitude(), currentLocation.getAccuracy(), currentLocation.getSpeed());
+                } else {
+                    gpsPoint = new GPSPoint(currentLocation.getLatitude(), currentLocation.getLongitude(), currentLocation.getAccuracy());
+                }
 
-                GPSPoint gpsPoint = new GPSPoint(currentLocation.getLatitude(), currentLocation.getLongitude());
                 Log.i(TAG, "Location Callback results: " + gpsPoint);
-                if (null != workable)
+                if (null != workable) {
                     workable.work(gpsPoint);
+                }
             }
         };
 

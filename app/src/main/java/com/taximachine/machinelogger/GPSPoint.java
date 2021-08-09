@@ -13,17 +13,29 @@ public class GPSPoint {
     private BigDecimal lat, lon;
     private Date date;
     private String lastUpdate;
+    private Float speed = null;
+    private float accuracy;
 
-    public GPSPoint(BigDecimal latitude, BigDecimal longitude) {
+    public GPSPoint(BigDecimal latitude, BigDecimal longitude, float accuracy) {
         this.lat = latitude;
         this.lon = longitude;
         this.date = new Date();
         this.lastUpdate = DateFormat.getTimeInstance().format(this.date);
+        this.accuracy = accuracy;
     }
 
-    public GPSPoint(Double latitude, Double longitude) {
-        this.lat = BigDecimal.valueOf(latitude);
-        this.lon = BigDecimal.valueOf(longitude);
+    public GPSPoint(Double latitude, Double longitude, float accuracy) {
+        this(BigDecimal.valueOf(latitude), BigDecimal.valueOf(longitude), accuracy);
+    }
+
+    public GPSPoint(BigDecimal latitude, BigDecimal longitude, float accuracy, float speed) {
+        this(latitude, longitude, accuracy);
+        this.speed = speed;
+    }
+
+    public GPSPoint(Double latitude, Double longitude, float accuracy, float speed) {
+        this(latitude, longitude, accuracy);
+        this.speed = speed;
     }
 
     public BigDecimal getLatitude() {
@@ -46,6 +58,22 @@ public class GPSPoint {
     @Override
     public String toString() {
         return "(" + lat + ", " + lon + ")";
+    }
+
+    public Float getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(float speed) {
+        this.speed = speed;
+    }
+
+    public float getAccuracy() {
+        return accuracy;
+    }
+
+    public void setAccuracy(float accuracy) {
+        this.accuracy = accuracy;
     }
 }
 

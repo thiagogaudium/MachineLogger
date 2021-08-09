@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.IBinder;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -19,6 +20,7 @@ import com.google.gson.Gson;
 
 public class GPSService extends Service {
     private Workable<GPSPoint> workable;
+    private GpsDataObject gpsDataObject = new GpsDataObject();
 
     @Override
     public void onCreate() {
@@ -29,16 +31,32 @@ public class GPSService extends Service {
             startForeground(1, new Notification());
 
         workable = (gpsPoint) -> {
-          GpsDataObject gpsDataObject = new GpsDataObject();
-          gpsDataObject.setLat(gpsPoint.getLatitude());
-          gpsDataObject.setLng(gpsPoint.getLongitude());
-          gpsDataObject.setModelo(ManagerUtil.getDeviceName());
-          gpsDataObject.setVersaoSO(ManagerUtil.getSOVersion());
-          gpsDataObject.setMemoriaRAMLivre(ManagerUtil.getFreeRamMemorySize(getApplicationContext()));
-          gpsDataObject.setTotalMemoriaRAM(ManagerUtil.getTotalRamMemorySize(getApplicationContext()));
+            if(gpsDataObject.getPosicoes().size() == 60) {
+                gpsDataObject.setModelo(ManagerUtil.getDeviceName());
+                gpsDataObject.setVersaoSO(ManagerUtil.getSOVersion());
+                gpsDataObject.setMemoriaRAMLivre(ManagerUtil.getFreeRamMemorySize(getApplicationContext()));
+                gpsDataObject.setTotalMemoriaRAM(ManagerUtil.getTotalRamMemorySize(getApplicationContext()));
 
-          Gson gson = new Gson();
-          Log.i("GPS", gson.toJson(gpsDataObject));
+                String nomeOperadora;
+                TelephonyManager manager = (TelephonyManager) getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
+                if(manager != null) {
+                    nomeOperadora = manager.getNetworkOperatorName();
+                }
+                else{
+                    nomeOperadora = "Erro ao obter operadora";
+                }
+                gpsDataObject.setOperadora(nomeOperadora);
+
+                // TODO: Dispatch it to backend.
+                Gson gson = new Gson();
+                Log.i("GPS", gson.toJson(gpsDataObject));
+
+                // Resetando objeto.
+                gpsDataObject = new GpsDataObject();
+            }
+
+            gpsDataObject.addPosicao(new GpsDataObject.Posicao(gpsPoint.getLatitude(), gpsPoint.getLongitude(), gpsPoint.getSpeed(), gpsPoint.getAccuracy(), gpsPoint.getLastUpdate()));
+
         };
     }
 
