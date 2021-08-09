@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GpsDataObject {
-    private String modelo, versaoSO, operadora;
-    private long memoriaRAMLivre, totalMemoriaRAM;
+    private String modelo, versao_so, operadora, identifier;
+    private long memoria_ram_livre, total_memoria_ram;
     private List<Posicao> posicoes = new ArrayList<Posicao>();
 
     public String getModelo() {
@@ -17,28 +17,28 @@ public class GpsDataObject {
         this.modelo = modelo;
     }
 
-    public String getVersaoSO() {
-        return versaoSO;
+    public String getVersao_so() {
+        return versao_so;
     }
 
-    public void setVersaoSO(String versaoSO) {
-        this.versaoSO = versaoSO;
+    public void setVersao_so(String versao_so) {
+        this.versao_so = versao_so;
     }
 
-    public long getMemoriaRAMLivre() {
-        return memoriaRAMLivre;
+    public long getMemoria_ram_livre() {
+        return memoria_ram_livre;
     }
 
-    public void setMemoriaRAMLivre(long memoriaRAMLivre) {
-        this.memoriaRAMLivre = memoriaRAMLivre;
+    public void setMemoria_ram_livre(long memoria_ram_livre) {
+        this.memoria_ram_livre = memoria_ram_livre;
     }
 
-    public long getTotalMemoriaRAM() {
-        return totalMemoriaRAM;
+    public long getTotal_memoria_ram() {
+        return total_memoria_ram;
     }
 
-    public void setTotalMemoriaRAM(long totalMemoriaRAM) {
-        this.totalMemoriaRAM = totalMemoriaRAM;
+    public void setTotal_memoria_ram(long total_memoria_ram) {
+        this.total_memoria_ram = total_memoria_ram;
     }
 
     public List<Posicao> getPosicoes() {
@@ -57,6 +57,14 @@ public class GpsDataObject {
         this.operadora = operadora;
     }
 
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+
 
     public static class Posicao {
         private BigDecimal lat, lng;
@@ -64,7 +72,7 @@ public class GpsDataObject {
         private float acuracia;
         private String tempo;
 
-        public Posicao(BigDecimal lat, BigDecimal lng, float velocidade, Float acucaria, String tempo) {
+        public Posicao(BigDecimal lat, BigDecimal lng, Float velocidade, Float acucaria, String tempo) {
             this.lat = lat;
             this.lng = lng;
             this.velocidade = velocidade;
@@ -96,7 +104,7 @@ public class GpsDataObject {
             this.velocidade = velocidade;
         }
 
-        public float getAcuracia() {
+        public Float getAcuracia() {
             return acuracia;
         }
 

@@ -12,7 +12,6 @@ public class GPSPoint {
 
     private BigDecimal lat, lon;
     private Date date;
-    private String lastUpdate;
     private Float speed = null;
     private float accuracy;
 
@@ -20,7 +19,6 @@ public class GPSPoint {
         this.lat = latitude;
         this.lon = longitude;
         this.date = new Date();
-        this.lastUpdate = DateFormat.getTimeInstance().format(this.date);
         this.accuracy = accuracy;
     }
 
@@ -44,10 +42,6 @@ public class GPSPoint {
 
     public Date getDate() {
         return date;
-    }
-
-    public String getLastUpdate() {
-        return lastUpdate;
     }
 
     public BigDecimal getLongitude() {
