@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".MainActivity">
 
     <TextView
@@ -14,6 +15,8 @@
         android:gravity="center"
         android:text="O GPS deve estar ligado e com permissão para uso durante o tempo todo!"
         android:textAllCaps="true"
+        android:textStyle="bold"
+        android:textColor="@color/white"
         />
 
     <Button
