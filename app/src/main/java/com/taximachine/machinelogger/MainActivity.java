@@ -1,7 +1,6 @@
 package com.taximachine.machinelogger;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -12,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+
 
 public class MainActivity extends AppCompatActivity {
     boolean serviceRunning = false;
@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         btnIniciar.setText(serviceRunning ? "Iniciado" : "Iniciar");
         btnIniciar.setOnClickListener((view) -> {
             if(!serviceRunning) {
-                if(ManagerUtil.hasLocationPermissions(MainActivity.this) && gpsService == null) {
+                if(ManagerUtil.hasLocationPermissions(MainActivity.this)) {
                     setupGPSService();
                 } else {
                     pressStart = true;
@@ -36,9 +36,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        if(!ManagerUtil.hasLocationPermissions(this)) {
-            requestLocationPermission();
-        }
+        checkPermissions();
     }
 
     public void setupGPSService() {
@@ -63,16 +61,32 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
+    private void checkPermissions(){
+        if (!ManagerUtil.checkBasicAppPermissions(this)) {
+            requestBasicPermissions();
+        } else {
+            if(!ManagerUtil.hasLocationPermissions(this)) {
+                requestLocationPermission();
+            }
+        }
+    }
+
+    private void requestBasicPermissions() {
+        String[] permissions = ManagerUtil.getRequiredBasicPermissions();
+        if (permissions != null && permissions.length > 0) {
+            ActivityCompat.requestPermissions(this, permissions, ManagerUtil.BASIC_PERMISSION_REQUEST_CODE);
+        }
+    }
 
 
     public void requestLocationPermission(){
-        ActivityCompat.requestPermissions(this, ManagerUtil.getLocationPermissions(), ManagerUtil.PERMISSION_REQUEST_CODE);
+        ActivityCompat.requestPermissions(this, ManagerUtil.getLocationPermissions(), ManagerUtil.GPS_PERMISSION_REQUEST_CODE);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode == ManagerUtil.PERMISSION_REQUEST_CODE && pressStart) {
+        if(requestCode == ManagerUtil.GPS_PERMISSION_REQUEST_CODE && pressStart) {
             boolean allGranted = true;
             if (grantResults.length > 0){
                 for (int i = 0; i < grantResults.length; i++) {
@@ -85,6 +99,10 @@ public class MainActivity extends AppCompatActivity {
             if(allGranted) {
                 pressStart = false;
                 setupGPSService();
+            }
+        } else if(requestCode == ManagerUtil.BASIC_PERMISSION_REQUEST_CODE) {
+            if(!ManagerUtil.hasLocationPermissions(this)) {
+                requestLocationPermission();
             }
         }
     }
