@@ -61,7 +61,7 @@ public class GPSService extends Service {
         SharedPreferences sp = getApplicationContext().getSharedPreferences("SHARED_PREFS" ,Context.MODE_PRIVATE);
         identifier = sp.getString("identifier", UUID.randomUUID().toString());
         SharedPreferences.Editor editor = sp.edit();
-        editor.putString("idenfier", identifier);
+        editor.putString("identifier", identifier);
         editor.commit();
 
         workable = (gpsPoint) -> {
@@ -83,6 +83,7 @@ public class GPSService extends Service {
                 else{
                     nomeOperadora = "Erro ao obter operadora";
                 }
+                
                 gpsDataObject.setOperadora(nomeOperadora);
 
                 doPost(gpsDataObject);

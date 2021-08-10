@@ -32,7 +32,7 @@ public class Whereabouts {
 
     private Workable<GPSPoint> workable;
 
-    private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 1000;
+    private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 3000;
     private static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS = 1000;
 
     @SuppressLint("MissingPermission")
