@@ -30,10 +30,11 @@ public class ManagerUtil {
     };
 
     public static final String[] REQUIRED_BASIC_PERMISSIONS = {
-            android.Manifest.permission.ACCESS_WIFI_STATE,
-            android.Manifest.permission.INTERNET,
-            android.Manifest.permission.READ_PHONE_STATE,
-            android.Manifest.permission.ACCESS_NETWORK_STATE
+            Manifest.permission.ACCESS_WIFI_STATE,
+            Manifest.permission.INTERNET,
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.ACCESS_NETWORK_STATE,
+            Manifest.permission.RECEIVE_BOOT_COMPLETED
     };
 
     public static String[] getLocationPermissions() {
